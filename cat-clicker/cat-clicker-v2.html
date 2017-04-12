@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id='cat-1'>
+            <h2 id="cat-1-name"></h2>
+            <img id="cat-1-img" src="https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426" alt="Cat Picture 1" style="width:304px;height:228px;">
+            <p id="cat-1-msg"></p>
+        </div>
+        <div id='cat-2'>
+            <h2 id="cat-2-name"></h2>
+            <img id="cat-2-img" src="https://lh3.ggpht.com/kixazxoJ2ufl3ACj2I85Xsy-Rfog97BM75ZiLaX02KgeYramAEqlEHqPC3rKqdQj4C1VFnXXryadFs1J9A=s0#w=640&h=496" alt="Cat Picture 2" style="width:304px;height:228px;">
+            <p id="cat-2-msg"></p>
+        </div>
+    </body>
+    <script>
+        class CatClicker {
+            constructor(id, name) {
+                this._elementId = id;
+                this._clickCount = 0;
+                this._name = name;
+
+                document.getElementById(this.nameId).innerHTML = this.name;
+                document.getElementById(this.messageId).innerHTML = this.message;
+            }
+
+            incrementClickCount() {
+                this._clickCount++;
+            }
+
+            get clickCount() {
+                return this._clickCount;
+            }
+
+            get elementId() {
+                return this._elementId;
+            }
+
+            get imageId() {
+                return `${this._elementId}-img`;
+            }
+
+            get messageId() {
+                return `${this._elementId}-msg`;
+            }
+
+            get nameId() {
+                return `${this._elementId}-name`;
+            }
+
+            get name() {
+                return this._name;
+            }
+
+            get message() {
+                return `${this._name}'s picture was clicked ${this._clickCount} time(s).`
+            }
+        }
+
+        var cat1 = new CatClicker('cat-1', 'Jeremy');
+        var elem = document.getElementById(cat1.imageId);
+        elem.addEventListener("click", function(){
+            cat1.incrementClickCount();
+            document.getElementById(cat1.messageId).innerHTML = cat1.message;
+        }, false);
+
+        var cat2 = new CatClicker('cat-2', 'John');
+        var elem = document.getElementById(cat2.imageId);
+        elem.addEventListener("click", function(){
+            cat2.incrementClickCount();
+            document.getElementById(cat2.messageId).innerHTML = cat2.message;
+        }, false);
+    </script>
+</html>
