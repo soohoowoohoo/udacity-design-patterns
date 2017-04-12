@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="cat-display"></div>
+        <div><h2>List of Cats</h2><ul id="cat-list"></ul></div>
+    </body>
+    <script>
+        class CatClicker {
+            constructor(index, name, src) {
+                this._catIndex = index;
+                this._clickCount = 0;
+                this._name = name;
+                this._src = src;
+            }
+
+            incrementClickCount() {
+                this._clickCount++;
+            }
+
+            get clickCount() {
+                return this._clickCount;
+            }
+
+            get divId() {
+                return `cat-${this._catIndex}`;
+            }
+
+            get imageId() {
+                return `${this.divId}-img`;
+            }
+
+            get messageId() {
+                return `${this.divId}-msg`;
+            }
+
+            get nameId() {
+                return `${this.divId}-name`;
+            }
+
+            get name() {
+                return this._name;
+            }
+
+            get message() {
+                return `${this._name}'s picture was clicked ${this._clickCount} time(s).`
+            }
+
+            buildDisplayName() {
+                const element = document.createElement('h2');
+                element.id = this.nameId;
+                element.innerHTML = this.name;
+                return element;
+            }
+
+            buildDisplayImage() {
+                const element = document.createElement('img');
+                element.id = this.imageId;
+                element.src = this._src;
+                element.alt = `Cat Picture ${this._catIndex}`;
+                element.setAttribute('style', 'width:304px;height:228px;');
+                return element;
+            }
+
+            buildDisplayMessage() {
+                const element = document.createElement('p');
+                element.id = this.messageId;
+                element.innerHTML = this.message;
+                return element;
+            }
+
+            buildCatContent() {
+                const element = document.createElement('div');
+                element.id = this.divId;
+
+                element.appendChild(this.buildDisplayName());
+                element.appendChild(this.buildDisplayImage());
+                element.appendChild(this.buildDisplayMessage());
+
+                return element;
+            }
+
+            appendToDOM() {
+                const display = document.getElementById('cat-display');
+                display.appendChild(this.buildCatContent());
+
+                document.getElementById(this.imageId).addEventListener('click', ((cat) => {
+                    return () => {
+                        cat.incrementClickCount();
+                        document.getElementById(cat.messageId).innerHTML = cat.message;
+                    };
+                })(this));
+            }
+        }
+
+        const cats = [
+            new CatClicker(1, 'Jeremy', 'https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426'),
+            new CatClicker(2, 'John', 'https://lh3.ggpht.com/kixazxoJ2ufl3ACj2I85Xsy-Rfog97BM75ZiLaX02KgeYramAEqlEHqPC3rKqdQj4C1VFnXXryadFs1J9A=s0#w=640&h=496'),
+            new CatClicker(3, 'Francis', 'https://images.pexels.com/photos/96938/pexels-photo-96938.jpeg?h=350&auto=compress&cs=tinysrgb'),
+            new CatClicker(4, 'Ginni', 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?h=350&auto=compress&cs=tinysrgb'),
+            new CatClicker(5, 'Larry', 'https://images.pexels.com/photos/126407/pexels-photo-126407.jpeg?h=350&auto=compress&cs=tinysrgb'),
+            new CatClicker(6, 'Bartholomew', 'https://images.pexels.com/photos/33537/cat-animal-cat-portrait-mackerel.jpg?h=350&auto=compress&cs=tinysrgb')
+        ];
+
+        let catList = document.getElementById('cat-list');
+        for (let i=0; i < cats.length; i++) {
+            const element = document.createElement('li');
+            element.innerHTML = cats[i].name;
+
+            element.addEventListener('click', ((cat) => {
+                return () => {
+                    clearCatDisplay();
+                    cat.appendToDOM();
+                };
+            })(cats[i]));
+
+            catList.appendChild(element);
+        }
+
+        const clearCatDisplay = () => {
+            const e = document.getElementById('cat-display');
+            while(e.hasChildNodes()) {e.removeChild(e.lastChild)};
+        }
+    </script>
+</html>
