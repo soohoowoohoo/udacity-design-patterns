@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id='cat-1'>
+            <img id="cat-1-img" src="https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426" alt="Cat Picture 1" style="width:304px;height:228px;">
+            <p id="cat-1-msg">This picture was clicked <span id="cat-1-click-count">0</span> time(s).</p>
+        </div>
+    </body>
+    <script>
+        class CatClicker {
+            constructor(id) {
+                this._elementId = id;
+                this._clickCount = 0;
+            }
+
+            incrementClickCount() {
+                this._clickCount++;
+            }
+
+            get clickCount() {
+                return this._clickCount;
+            }
+
+            get elementId() {
+                return this._elementId;
+            }
+
+            get imageId() {
+                return `${this.elementId}-img`;
+            }
+
+            get countId() {
+                return `${this.elementId}-click-count`;
+            }
+        }
+
+        var cat1 = new CatClicker('cat-1');
+        var elem = document.getElementById(cat1.imageId);
+        elem.addEventListener("click", function(){
+            cat1.incrementClickCount();
+            document.getElementById(cat1.countId).innerHTML = cat1.clickCount;
+        }, false);
+    </script>
+</html>
